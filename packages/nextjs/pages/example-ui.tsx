@@ -21,7 +21,7 @@ const ExampleUI: NextPage = () => {
     args: [
       deployedContracts[CHAIN_ID][0].contracts.ERC6551Account.address,
       BigInt("1"),
-      deployedContracts[CHAIN_ID][0].contracts.ERC6551Registry.address,
+      deployedContracts[CHAIN_ID][0].contracts.PlayerNFT.address,
       BigInt("1"),
       BigInt("1"),
       "0x",

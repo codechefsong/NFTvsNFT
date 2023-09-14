@@ -43,6 +43,12 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
     autoMine: true,
   });
 
+  await deploy("PlayerNFT", {
+    from: deployer,
+    log: true,
+    autoMine: true,
+  });
+
   const registryContract = await hre.ethers.getContract("ERC6551Registry", deployer);
 
   await deploy("NFTvsNFT", {
