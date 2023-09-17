@@ -1,10 +1,7 @@
 import type { NextPage } from "next";
 import { useAccount } from "wagmi";
 import { MetaHeader } from "~~/components/MetaHeader";
-import deployedContracts from "~~/generated/deployedContracts";
 import { useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
-
-const CHAIN_ID = 31337;
 
 const ExampleUI: NextPage = () => {
   const { address } = useAccount();
@@ -15,17 +12,14 @@ const ExampleUI: NextPage = () => {
     args: [address],
   });
 
-  const { writeAsync: createAccount } = useScaffoldContractWrite({
+  const { data: getMatches } = useScaffoldContractRead({
     contractName: "NFTvsNFT",
-    functionName: "createTokenBoundAccount",
-    args: [
-      deployedContracts[CHAIN_ID][0].contracts.ERC6551Account.address,
-      BigInt("1"),
-      deployedContracts[CHAIN_ID][0].contracts.PlayerNFT.address,
-      BigInt("1"),
-      BigInt("1"),
-      "0x",
-    ],
+    functionName: "getMatches",
+  });
+
+  const { writeAsync: createMatch } = useScaffoldContractWrite({
+    contractName: "NFTvsNFT",
+    functionName: "createMatch",
     onBlockConfirmation: txnReceipt => {
       console.log("📦 Transaction blockHash", txnReceipt.blockHash);
       console.log(txnReceipt);
@@ -43,14 +37,22 @@ const ExampleUI: NextPage = () => {
         <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree&display=swap" rel="stylesheet" />
       </MetaHeader>
       <div className="flex flex-col items-center">
-        <h2 className="text-2xl mb-0">Your Token Bound Account</h2>
+        <h2 className="text-2xl mt-10 mb-0">Your Token Bound Account</h2>
         <p className="mt-0">{tbaAddress}</p>
         <button
-          className="py-2 px-16 mt-10  mb-10 bg-green-500 rounded baseline hover:bg-green-300 disabled:opacity-50"
-          onClick={() => createAccount()}
+          className="py-2 px-16 mb-10 bg-green-500 rounded baseline hover:bg-green-300 disabled:opacity-50"
+          onClick={() => createMatch()}
         >
-          Create Token Bound Account
+          Create Match
         </button>
+
+        {getMatches?.map((m, index) => (
+          <div key={index}>
+            <p>{m.id.toString()}</p>
+            <p>{m.player1}</p>
+            <p>{m.player2}</p>
+          </div>
+        ))}
       </div>
     </>
   );

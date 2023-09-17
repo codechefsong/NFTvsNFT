@@ -1,16 +1,35 @@
 //SPDX-License-Identifier: MIT
 pragma solidity >=0.8.0 <0.9.0;
+
+import "@openzeppelin/contracts/utils/Counters.sol";
+
 import "./ERC6551Registry.sol";
 
 contract NFTvsNFT {
+  using Counters for Counters.Counter;
+  Counters.Counter public numberOfMatches;
   ERC6551Registry public registry;
 
   address public immutable owner;
   mapping(address => address) public tbaList;
+  Match[] public matchList;
+  
+  struct Match {
+    uint256 id;
+    address player1;
+    address player2;
+    uint256 hp1;
+    uint256 hp2;
+    bool isMatch;
+  }
 
   constructor(address _owner, address _registryAddress) {
     owner = _owner;
     registry = ERC6551Registry(_registryAddress);
+  }
+
+  function getMatches() public view returns (Match[] memory){
+    return matchList;
   }
 
   function createTokenBoundAccount(
@@ -23,6 +42,17 @@ contract NFTvsNFT {
   ) external {
     address newTBA = registry.createAccount(_implementation, _chainId, _tokenContract, _tokenId, _salt, _initData);
     tbaList[msg.sender] = newTBA;
+  }
+
+  function createMatch() external {
+    uint256 newMatchId = numberOfMatches.current();
+    matchList.push(Match(newMatchId, msg.sender, address(0), 100, 100, false));
+    numberOfMatches.increment();
+  }
+
+  function joinMatch(uint256 _matchId) external {
+    matchList[_matchId].player2 = msg.sender;
+    matchList[_matchId].isMatch = true;
   }
 
   // Modifier: used to define a set of rules that must be met before or after a function is executed
