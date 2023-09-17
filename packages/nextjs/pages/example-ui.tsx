@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import { useAccount } from "wagmi";
 import { MetaHeader } from "~~/components/MetaHeader";
+import { GameItem } from "~~/components/game/GameItem";
 import { useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 
 const ExampleUI: NextPage = () => {
@@ -46,13 +47,26 @@ const ExampleUI: NextPage = () => {
           Create Match
         </button>
 
-        {getMatches?.map((m, index) => (
-          <div key={index}>
-            <p>{m.id.toString()}</p>
-            <p>{m.player1}</p>
-            <p>{m.player2}</p>
+        <div className="flex justify-center px-4 md:px-0">
+          <div className="overflow-x-auto w-full shadow-2xl rounded-xl">
+            <table className="table text-xl bg-base-100 table-zebra w-full md:table-md table-sm">
+              <thead>
+                <tr className="rounded-xl text-sm text-base-content">
+                  <th className="bg-primary">Match ID</th>
+                  <th className="bg-primary">Player 1</th>
+                  <th className="bg-primary">Player 2</th>
+                  <th className="bg-primary">Is Match?</th>
+                  <th className="bg-primary">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {getMatches?.map((m, index) => (
+                  <GameItem data={m} key={index} />
+                ))}
+              </tbody>
+            </table>
           </div>
-        ))}
+        </div>
       </div>
     </>
   );
