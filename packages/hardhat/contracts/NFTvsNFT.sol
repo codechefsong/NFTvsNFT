@@ -32,6 +32,10 @@ contract NFTvsNFT {
     return matchList;
   }
 
+  function getMatchById(uint256 _id) public view returns (Match memory){
+    return matchList[_id];
+  }
+
   function createTokenBoundAccount(
     address _implementation,
     uint256 _chainId,
