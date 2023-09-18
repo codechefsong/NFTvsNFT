@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import type { NextPage } from "next";
 import { Address } from "~~/components/scaffold-eth";
-import { useScaffoldContractRead } from "~~/hooks/scaffold-eth";
+import { useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 
 const MatchRoom: NextPage = () => {
   const router = useRouter();
@@ -12,9 +12,15 @@ const MatchRoom: NextPage = () => {
     args: [id as any],
   });
 
-  const handleYes = async () => {
-    router.push("/game");
-  };
+  const { writeAsync: attack } = useScaffoldContractWrite({
+    contractName: "NFTvsNFT",
+    functionName: "attack",
+    args: [id as any, "10" as any],
+    onBlockConfirmation: txnReceipt => {
+      console.log("📦 Transaction blockHash", txnReceipt.blockHash);
+      console.log(txnReceipt);
+    },
+  });
 
   return (
     <div className="flex items-center flex-col flex-grow pt-7">
@@ -36,7 +42,7 @@ const MatchRoom: NextPage = () => {
 
         <button
           className="py-2 px-16 mb-1 mt-3 mr-3 bg-green-500 rounded baseline hover:bg-green-300 disabled:opacity-50"
-          onClick={handleYes}
+          onClick={attack}
         >
           Attack
         </button>

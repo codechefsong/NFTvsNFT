@@ -59,6 +59,21 @@ contract NFTvsNFT {
     matchList[_matchId].isMatch = true;
   }
 
+  function attack(uint256 _matchId, uint256 _damage) external {
+    if (matchList[_matchId].player1 == msg.sender) {
+      if (_damage > matchList[_matchId].hp2) {
+        matchList[_matchId].hp2 -= 0;
+      }
+      else matchList[_matchId].hp2 -= _damage;
+    }
+    else {
+      if (_damage > matchList[_matchId].hp1) {
+        matchList[_matchId].hp1 -= 0;
+      }
+      else matchList[_matchId].hp1 -= _damage;
+    }
+  }
+
   // Modifier: used to define a set of rules that must be met before or after a function is executed
   // Check the withdraw() function
   modifier isOwner() {
