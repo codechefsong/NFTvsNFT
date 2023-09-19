@@ -1,15 +1,31 @@
 import { useRouter } from "next/router";
 import type { NextPage } from "next";
+import { useAccount } from "wagmi";
+import { MoveItem } from "~~/components/game/MoveItem";
 import { Address } from "~~/components/scaffold-eth";
 import { useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 
 const MatchRoom: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
+  const { address } = useAccount();
+
   const { data: matchData } = useScaffoldContractRead({
     contractName: "NFTvsNFT",
     functionName: "getMatchById",
     args: [id as any],
+  });
+
+  const { data: tbaAddress } = useScaffoldContractRead({
+    contractName: "NFTvsNFT",
+    functionName: "tbaList",
+    args: [address],
+  });
+
+  const { data: moveData } = useScaffoldContractRead({
+    contractName: "MoveNFT",
+    functionName: "getMyMoves",
+    args: [tbaAddress],
   });
 
   const { writeAsync: attack } = useScaffoldContractWrite({
@@ -32,20 +48,28 @@ const MatchRoom: NextPage = () => {
         <div className="grid lg:grid-cols-2 gap-8 flex-grow mt-10 px-20">
           <div>
             <Address address={matchData?.player1} />
+            <Address address={matchData?.nft1} />
             <h2>HP {matchData?.hp1.toString()}</h2>
           </div>
           <div>
             <Address address={matchData?.player2} />
+            <Address address={matchData?.nft2} />
             <h2>HP {matchData?.hp2.toString()}</h2>
           </div>
         </div>
 
         <button
           className="py-2 px-16 mb-1 mt-3 mr-3 bg-green-500 rounded baseline hover:bg-green-300 disabled:opacity-50"
-          onClick={attack}
+          onClick={() => attack()}
         >
           Attack
         </button>
+
+        <div className="flex">
+          {moveData?.map((m, index) => (
+            <MoveItem data={m} key={index} tbaAddress={tbaAddress} />
+          ))}
+        </div>
         <button
           className="py-2 px-16 mb-1 mt-3 bg-gray-300 rounded baseline hover:bg-gray-200 disabled:opacity-50"
           onClick={() => router.push("/board")}

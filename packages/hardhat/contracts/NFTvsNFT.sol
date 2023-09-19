@@ -18,6 +18,8 @@ contract NFTvsNFT {
     uint256 id;
     address player1;
     address player2;
+    address nft1;
+    address nft2;
     uint256 hp1;
     uint256 hp2;
     bool isMatch;
@@ -50,12 +52,13 @@ contract NFTvsNFT {
 
   function createMatch() external {
     uint256 newMatchId = numberOfMatches.current();
-    matchList.push(Match(newMatchId, msg.sender, address(0), 100, 100, false));
+    matchList.push(Match(newMatchId, msg.sender, address(0), tbaList[msg.sender], address(0), 100, 100, false));
     numberOfMatches.increment();
   }
 
   function joinMatch(uint256 _matchId) external {
     matchList[_matchId].player2 = msg.sender;
+    matchList[_matchId].player2 = tbaList[msg.sender];
     matchList[_matchId].isMatch = true;
   }
 

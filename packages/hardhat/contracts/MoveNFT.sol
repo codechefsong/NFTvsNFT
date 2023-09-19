@@ -30,7 +30,7 @@ contract MoveNFT is ERC721URIStorage {
 
     _tokenIds.increment();
     moves.push(Move(newItemId, _name, _power));
-    playerMoves[msg.sender].push(Move(newItemId, _name, _power));
+    playerMoves[_to].push(Move(newItemId, _name, _power));
     return newItemId;
   }
 }
