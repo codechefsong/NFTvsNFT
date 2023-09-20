@@ -1,15 +1,17 @@
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 
-export const MoveItem = ({ data, tbaAddress }: any) => {
-  const { writeAsync: buyMove } = useScaffoldContractWrite({
-    contractName: "MoveNFT",
-    functionName: "mint",
-    args: [tbaAddress, "url", data.name, data.power],
+export const AttackItem = ({ data, matchId }: any) => {
+  const { writeAsync: attack } = useScaffoldContractWrite({
+    contractName: "NFTvsNFT",
+    functionName: "attack",
+    args: [matchId as any, data.power as any],
     onBlockConfirmation: txnReceipt => {
       console.log("📦 Transaction blockHash", txnReceipt.blockHash);
       console.log(txnReceipt);
     },
   });
+
+  console.log(data.power, "Dddd")
 
   return (
     <div
@@ -20,10 +22,9 @@ export const MoveItem = ({ data, tbaAddress }: any) => {
       <p>{data.power}</p>
       <button
         className="py-2 px-16 bg-green-500 rounded baseline hover:bg-green-300 disabled:opacity-50"
-        onClick={() => buyMove()}
-        disabled={tbaAddress === "0x0000000000000000000000000000000000000000"}
+        onClick={() => attack()}
       >
-        Buy
+        Attack
       </button>
     </div>
   );

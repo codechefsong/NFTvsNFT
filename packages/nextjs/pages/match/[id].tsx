@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
 import type { NextPage } from "next";
 import { useAccount } from "wagmi";
-import { MoveItem } from "~~/components/game/MoveItem";
+import { AttackItem } from "~~/components/game/AttackItem";
 import { Address } from "~~/components/scaffold-eth";
-import { useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
+import { useScaffoldContractRead } from "~~/hooks/scaffold-eth";
 
 const MatchRoom: NextPage = () => {
   const router = useRouter();
@@ -28,16 +28,6 @@ const MatchRoom: NextPage = () => {
     args: [tbaAddress],
   });
 
-  const { writeAsync: attack } = useScaffoldContractWrite({
-    contractName: "NFTvsNFT",
-    functionName: "attack",
-    args: [id as any, "10" as any],
-    onBlockConfirmation: txnReceipt => {
-      console.log("📦 Transaction blockHash", txnReceipt.blockHash);
-      console.log(txnReceipt);
-    },
-  });
-
   return (
     <div className="flex items-center flex-col flex-grow pt-7">
       <div className="px-5">
@@ -58,16 +48,9 @@ const MatchRoom: NextPage = () => {
           </div>
         </div>
 
-        <button
-          className="py-2 px-16 mb-1 mt-3 mr-3 bg-green-500 rounded baseline hover:bg-green-300 disabled:opacity-50"
-          onClick={() => attack()}
-        >
-          Attack
-        </button>
-
         <div className="flex">
           {moveData?.map((m, index) => (
-            <MoveItem data={m} key={index} tbaAddress={tbaAddress} />
+            <AttackItem data={m} key={index} matchId={id} />
           ))}
         </div>
         <button
