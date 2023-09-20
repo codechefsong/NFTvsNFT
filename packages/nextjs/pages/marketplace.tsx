@@ -92,7 +92,7 @@ const Marketplace: NextPage = () => {
                 key={index}
                 className="w-20 h-20 border border-gray-30 flex items-center justify-center font-bold mr-2 mb-2 cursor-pointer"
                 style={{ background: selectedNFT === index ? "#00cc99" : "white" }}
-                onClick={() => setSelectNFT(index)}
+                onClick={() => setSelectNFT(+n.toString())}
               >
                 <p>{n.toString()}</p>
               </div>

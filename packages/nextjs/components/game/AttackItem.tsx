@@ -11,8 +11,6 @@ export const AttackItem = ({ data, matchId }: any) => {
     },
   });
 
-  console.log(data.power, "Dddd")
-
   return (
     <div
       className="border border-gray-30 flex flex-col items-center font-bold bg-white mr-2 mb-2"
