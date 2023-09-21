@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Image from "next/image";
 import type { NextPage } from "next";
 import { useAccount } from "wagmi";
 import { MetaHeader } from "~~/components/MetaHeader";
@@ -19,6 +20,7 @@ const MOVE_LIST = [
 const Marketplace: NextPage = () => {
   const { address } = useAccount();
 
+  const [selectedPlayer, setSelectPlayer] = useState(-1);
   const [selectedNFT, setSelectNFT] = useState(-1);
 
   const { data: tbaAddress } = useScaffoldContractRead({
@@ -100,20 +102,34 @@ const Marketplace: NextPage = () => {
           </div>
 
           <button
-            className="py-2 px-16 mb-10 mt-3 bg-green-500 rounded baseline hover:bg-green-300 disabled:opacity-50"
+            className="py-2 px-16 mb-10 mt-3 ml-28 bg-green-500 rounded baseline hover:bg-green-300 disabled:opacity-50"
             onClick={() => createAccount()}
             disabled={nfts?.length === 0 || selectedNFT === -1}
           >
             Create Token Bound Account
           </button>
           <h1 className="text-center mb-5">
-            <span className="block text-2xl mb-2">Buy a NFT</span>
+            <span className="block text-3xl mb-2">Select NFTs to buy</span>
           </h1>
-
-          <p>Player</p>
-
+          <div className="grid lg:grid-cols-6 gap-8 flex-grow">
+            <div
+              className="w-30 h-30 border border-gray-30 flex items-center justify-center font-bold mr-2 mb-2 cursor-pointer"
+              style={{ background: selectedNFT === 0 ? "#00cc99" : "white" }}
+              onClick={() => setSelectNFT(0)}
+            >
+              <Image className="" src="/assets/chef.png" width={100} height={100} alt="Chef" />
+            </div>
+            <div
+              className="w-30 h-30 border border-gray-30 flex items-center justify-center font-bold mr-2 mb-2 cursor-pointer"
+              style={{ background: selectedNFT === 1 ? "#00cc99" : "white" }}
+              onClick={() => setSelectNFT(1)}
+            >
+               <Image className="" src="/assets/troop.png" width={100} height={100} alt="Troop" />
+            </div>
+          </div>
+          
           <button
-            className="py-2 px-16 mb-1 mt-6 bg-green-500 rounded baseline hover:bg-green-300 disabled:opacity-50"
+            className="py-2 px-16 mb-1 mt-6 ml-48 bg-green-500 rounded baseline hover:bg-green-300 disabled:opacity-50"
             onClick={() => mintNFT()}
           >
             Buy
