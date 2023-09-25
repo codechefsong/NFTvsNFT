@@ -8,21 +8,26 @@ contract PlayerNFT is ERC721URIStorage {
   using Counters for Counters.Counter;
   Counters.Counter private _tokenIds;
 
-  mapping(address => uint256[]) public mynfts;
+  mapping(address => Player[]) public mynfts;
+
+  struct Player {
+    uint256 id;
+    string url;
+  }
 
   constructor() ERC721("Player NFT", "PLY") {}
 
-  function mint(address _to, string memory _tokenURI_) public returns (uint256) {
+  function mint(address _to, string memory _tokenURI) public returns (uint256) {
     uint256 newItemId = _tokenIds.current();
     _mint(_to, newItemId);
-    _setTokenURI(newItemId, _tokenURI_);
+    _setTokenURI(newItemId, _tokenURI);
 
     _tokenIds.increment();
-    mynfts[_to].push(newItemId);
+    mynfts[_to].push(Player(newItemId, _tokenURI));
     return newItemId;
   }
 
-  function getMyNFTs(address _owner) public view returns (uint256[] memory){
+  function getMyNFTs(address _owner) public view returns (Player[] memory){
     return mynfts[_owner];
   }
 }

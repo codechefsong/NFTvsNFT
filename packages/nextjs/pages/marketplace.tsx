@@ -8,6 +8,8 @@ import deployedContracts from "~~/generated/deployedContracts";
 import { useScaffoldContractRead, useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 
 const CHAIN_ID = 31337;
+const PLAYER1 = "/assets/chef.png";
+const PLAYER2 = "/assets/troop.png";
 
 const MOVE_LIST = [
   {
@@ -20,7 +22,7 @@ const MOVE_LIST = [
 const Marketplace: NextPage = () => {
   const { address } = useAccount();
 
-  const [selectedPlayer, setSelectPlayer] = useState(-1);
+  const [selectedPlayer, setSelectPlayer] = useState("");
   const [selectedNFT, setSelectNFT] = useState(-1);
 
   const { data: tbaAddress } = useScaffoldContractRead({
@@ -44,7 +46,7 @@ const Marketplace: NextPage = () => {
   const { writeAsync: mintNFT } = useScaffoldContractWrite({
     contractName: "PlayerNFT",
     functionName: "mint",
-    args: [address, "URL"],
+    args: [address, selectedPlayer],
     onBlockConfirmation: txnReceipt => {
       console.log("📦 Transaction blockHash", txnReceipt.blockHash);
     },
@@ -92,11 +94,11 @@ const Marketplace: NextPage = () => {
             {nfts?.map((n, index) => (
               <div
                 key={index}
-                className="w-20 h-20 border border-gray-30 flex items-center justify-center font-bold mr-2 mb-2 cursor-pointer"
+                className="w-30 h-30 border border-gray-30 flex items-center justify-center font-bold mr-2 mb-2 cursor-pointer"
                 style={{ background: selectedNFT === index ? "#00cc99" : "white" }}
-                onClick={() => setSelectNFT(+n.toString())}
+                onClick={() => setSelectNFT(+n.id.toString())}
               >
-                <p>{n.toString()}</p>
+                <Image className="" src={n.url} width={70} height={70} alt="Troop" />
               </div>
             ))}
           </div>
@@ -114,20 +116,19 @@ const Marketplace: NextPage = () => {
           <div className="grid lg:grid-cols-6 gap-8 flex-grow">
             <div
               className="w-30 h-30 border border-gray-30 flex items-center justify-center font-bold mr-2 mb-2 cursor-pointer"
-              style={{ background: selectedNFT === 0 ? "#00cc99" : "white" }}
-              onClick={() => setSelectNFT(0)}
+              style={{ background: selectedPlayer === PLAYER1 ? "#00cc99" : "white" }}
+              onClick={() => setSelectPlayer(PLAYER1)}
             >
-              <Image className="" src="/assets/chef.png" width={100} height={100} alt="Chef" />
+              <Image className="" src={PLAYER1} width={100} height={100} alt="Chef" />
             </div>
             <div
               className="w-30 h-30 border border-gray-30 flex items-center justify-center font-bold mr-2 mb-2 cursor-pointer"
-              style={{ background: selectedNFT === 1 ? "#00cc99" : "white" }}
-              onClick={() => setSelectNFT(1)}
+              style={{ background: selectedPlayer === PLAYER2 ? "#00cc99" : "white" }}
+              onClick={() => setSelectPlayer(PLAYER2)}
             >
-               <Image className="" src="/assets/troop.png" width={100} height={100} alt="Troop" />
+              <Image className="" src={PLAYER2} width={100} height={100} alt="Troop" />
             </div>
           </div>
-          
           <button
             className="py-2 px-16 mb-1 mt-6 ml-48 bg-green-500 rounded baseline hover:bg-green-300 disabled:opacity-50"
             onClick={() => mintNFT()}

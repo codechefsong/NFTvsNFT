@@ -55,7 +55,7 @@ const MatchRoom: NextPage = () => {
         </div>
         <button
           className="py-2 px-16 mb-1 mt-3 bg-gray-300 rounded baseline hover:bg-gray-200 disabled:opacity-50"
-          onClick={() => router.push("/board")}
+          onClick={() => router.push("/example-ui")}
         >
           Back
         </button>
