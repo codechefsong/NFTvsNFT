@@ -17,6 +17,11 @@ const MOVE_LIST = [
     name: "Pie",
     power: 5,
   },
+  {
+    id: "1",
+    name: "Cake",
+    power: 20,
+  },
 ];
 
 const Marketplace: NextPage = () => {
@@ -144,7 +149,7 @@ const Marketplace: NextPage = () => {
 
           <div className="flex">
             {moves?.map((m, index) => (
-              <MoveItem data={m} key={index} tbaAddress={tbaAddress} />
+              <MoveItem data={m} key={index} tbaAddress={tbaAddress} readOnly={true} />
             ))}
           </div>
 
