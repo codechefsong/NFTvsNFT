@@ -12,6 +12,7 @@ contract NFTvsNFT {
 
   address public immutable owner;
   mapping(address => address) public tbaList;
+  mapping(address => string) public tbaImageList;
   Match[] public matchList;
   
   struct Match {
@@ -44,10 +45,12 @@ contract NFTvsNFT {
     address _tokenContract,
     uint256 _tokenId,
     uint256 _salt,
-    bytes calldata _initData
+    bytes calldata _initData,
+    string calldata _url
   ) external {
     address newTBA = registry.createAccount(_implementation, _chainId, _tokenContract, _tokenId, _salt, _initData);
     tbaList[msg.sender] = newTBA;
+    tbaImageList[newTBA] = _url;
   }
 
   function createMatch() external {

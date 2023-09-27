@@ -48,6 +48,12 @@ const Marketplace: NextPage = () => {
     args: [tbaAddress],
   });
 
+  const { data: url } = useScaffoldContractRead({
+    contractName: "PlayerNFT",
+    functionName: "tokenURI",
+    args: [selectedNFT as any],
+  });
+
   const { writeAsync: mintNFT } = useScaffoldContractWrite({
     contractName: "PlayerNFT",
     functionName: "mint",
@@ -67,6 +73,7 @@ const Marketplace: NextPage = () => {
       BigInt(selectedNFT),
       BigInt("1"),
       "0x",
+      url,
     ],
     onBlockConfirmation: txnReceipt => {
       console.log("📦 Transaction blockHash", txnReceipt.blockHash);
