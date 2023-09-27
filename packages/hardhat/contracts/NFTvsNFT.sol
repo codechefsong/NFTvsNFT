@@ -61,7 +61,7 @@ contract NFTvsNFT {
 
   function joinMatch(uint256 _matchId) external {
     matchList[_matchId].player2 = msg.sender;
-    matchList[_matchId].player2 = tbaList[msg.sender];
+    matchList[_matchId].nft2 = tbaList[msg.sender];
     matchList[_matchId].isMatch = true;
   }
 

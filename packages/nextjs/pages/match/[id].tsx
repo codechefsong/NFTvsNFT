@@ -1,5 +1,5 @@
-import { useRouter } from "next/router";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import type { NextPage } from "next";
 import { useAccount } from "wagmi";
 import { AttackItem } from "~~/components/game/AttackItem";
@@ -23,22 +23,16 @@ const MatchRoom: NextPage = () => {
     args: [address],
   });
 
-  const { data: tbaAddress2 } = useScaffoldContractRead({
-    contractName: "NFTvsNFT",
-    functionName: "tbaList",
-    args: [matchData?.nft2],
-  });
-
   const { data: url } = useScaffoldContractRead({
     contractName: "NFTvsNFT",
     functionName: "tbaImageList",
-    args: [tbaAddress],
+    args: [matchData?.nft1],
   });
 
   const { data: url2 } = useScaffoldContractRead({
     contractName: "NFTvsNFT",
     functionName: "tbaImageList",
-    args: [tbaAddress2],
+    args: [matchData?.nft2],
   });
 
   const { data: moveData } = useScaffoldContractRead({
@@ -54,7 +48,7 @@ const MatchRoom: NextPage = () => {
           <span className="block text-2xl mb-2">Match #{matchData?.id.toString()}</span>
         </h1>
 
-        <div className="grid lg:grid-cols-2 gap-8 flex-grow mt-10 px-20">
+        <div className="grid lg:grid-cols-2 gap-36 flex-grow mt-10 mb-6 px-20">
           <div>
             <Address address={matchData?.player1} />
             <Address address={matchData?.nft1} />
