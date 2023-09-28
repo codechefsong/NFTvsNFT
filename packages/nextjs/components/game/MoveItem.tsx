@@ -1,10 +1,11 @@
+import Image from "next/image";
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 
 export const MoveItem = ({ data, tbaAddress, readOnly }: any) => {
   const { writeAsync: buyMove } = useScaffoldContractWrite({
     contractName: "MoveNFT",
     functionName: "mint",
-    args: [tbaAddress, "url", data.name, data.power],
+    args: [tbaAddress, "url", data.name, data.power, data.url],
     onBlockConfirmation: txnReceipt => {
       console.log("📦 Transaction blockHash", txnReceipt.blockHash);
       console.log(txnReceipt);
@@ -15,8 +16,9 @@ export const MoveItem = ({ data, tbaAddress, readOnly }: any) => {
       className="border border-gray-30 flex flex-col items-center font-bold bg-white mr-2 mb-2"
       style={{ width: "200px", height: "200px" }}
     >
-      <p>{data.name}</p>
-      <p>Power: {data.power.toString()}</p>
+      <Image className="" src={data.url} width={70} height={70} alt="Item" />
+      <p className="mb-0">{data.name}</p>
+      <p className="mt-0">Power: {data.power.toString()}</p>
       {!readOnly && (
         <button
           className="py-2 px-16 bg-green-500 rounded baseline hover:bg-green-300 disabled:opacity-50"

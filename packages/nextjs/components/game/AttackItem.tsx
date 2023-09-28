@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 
 export const AttackItem = ({ data, matchId }: any) => {
@@ -16,8 +17,9 @@ export const AttackItem = ({ data, matchId }: any) => {
       className="border border-gray-30 flex flex-col items-center font-bold bg-white mr-2 mb-2"
       style={{ width: "200px", height: "200px" }}
     >
-      <p>{data.name}</p>
-      <p>Power: {data.power.toString()}</p>
+      <Image className="" src={data.url} width={70} height={70} alt="Item" />
+      <p className="mb-0">{data.name}</p>
+      <p className="mt-0">Power: {data.power.toString()}</p>
       <button
         className="py-2 px-16 bg-green-500 rounded baseline hover:bg-green-300 disabled:opacity-50"
         onClick={() => attack()}

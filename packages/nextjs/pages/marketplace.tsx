@@ -16,11 +16,13 @@ const MOVE_LIST = [
     id: "0",
     name: "Pie",
     power: 5,
+    url: "/assets/pie.png",
   },
   {
     id: "1",
     name: "Cake",
     power: 20,
+    url: "/assets/cake.png",
   },
 ];
 

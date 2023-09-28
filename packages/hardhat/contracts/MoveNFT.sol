@@ -17,20 +17,21 @@ contract MoveNFT is ERC721URIStorage {
     uint256 id;
     string name;
     uint256 power;
+    string url;
   }
 
   function getMyMoves(address _owner) public view returns (Move[] memory){
     return playerMoves[_owner];
   }
 
-  function mint(address _to, string memory _tokenURI_, string calldata _name, uint256 _power) public returns (uint256) {
+  function mint(address _to, string memory _tokenURI_, string calldata _name, uint256 _power, string calldata _url) public returns (uint256) {
     uint256 newItemId = _tokenIds.current();
     _mint(_to, newItemId);
     _setTokenURI(newItemId, _tokenURI_);
 
     _tokenIds.increment();
-    moves.push(Move(newItemId, _name, _power));
-    playerMoves[_to].push(Move(newItemId, _name, _power));
+    moves.push(Move(newItemId, _name, _power, _url));
+    playerMoves[_to].push(Move(newItemId, _name, _power, _url));
     return newItemId;
   }
 }
