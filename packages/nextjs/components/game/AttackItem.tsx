@@ -15,16 +15,17 @@ export const AttackItem = ({ data, matchId }: any) => {
   return (
     <div
       className="border border-gray-30 flex flex-col items-center font-bold bg-white mr-2 mb-2"
-      style={{ width: "200px", height: "200px" }}
+      style={{ width: "200px", height: "220px" }}
     >
-      <Image className="" src={data.url} width={70} height={70} alt="Item" />
-      <p className="mb-0">{data.name}</p>
-      <p className="mt-0">Power: {data.power.toString()}</p>
+      <Image className="my-1" src={data.url} width={70} height={70} alt="Item" />
+      <p className="text-lg my-0">{data.name}</p>
+      <p className="my-0 font-light">Power: {data.power.toString()}</p>
+      <p className="mt-0 font-light">Cooldown: {data.cooldown.toString()} Sec</p>
       <button
         className="py-2 px-16 bg-green-500 rounded baseline hover:bg-green-300 disabled:opacity-50"
         onClick={() => attack()}
       >
-        Attack
+        Use
       </button>
     </div>
   );
