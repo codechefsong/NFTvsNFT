@@ -48,20 +48,37 @@ const MatchRoom: NextPage = () => {
           <span className="block text-2xl mb-2">Match #{matchData?.id.toString()}</span>
         </h1>
 
-        <div className="grid lg:grid-cols-2 gap-36 flex-grow mt-10 mb-6 px-20">
-          <div>
-            <Address address={matchData?.player1} />
-            <Address address={matchData?.nft1} />
-            <h2>HP {matchData?.hp1.toString()}</h2>
-            <Image className="" src={url || ""} width={100} height={100} alt="Player" />
+        {address === matchData?.player1 ? (
+          <div className="grid sm:grid-cols-2 gap-36 flex-grow mt-10 mb-6 px-20">
+            <div>
+              <Address address={matchData?.player1} />
+              <Address address={matchData?.nft1} />
+              <h2>HP {matchData?.hp1.toString()}</h2>
+              <Image className="" src={url || ""} width={100} height={100} alt="Player" />
+            </div>
+            <div>
+              <Address address={matchData?.player2} />
+              <Address address={matchData?.nft2} />
+              <h2>HP {matchData?.hp2.toString()}</h2>
+              <Image className="" src={url2 || ""} width={100} height={100} alt="Player" />
+            </div>
           </div>
-          <div>
-            <Address address={matchData?.player2} />
-            <Address address={matchData?.nft2} />
-            <h2>HP {matchData?.hp2.toString()}</h2>
-            <Image className="" src={url2 || ""} width={100} height={100} alt="Player" />
+        ) : (
+          <div className="grid sm:grid-cols-2 gap-36 flex-grow mt-10 mb-6 px-20">
+            <div>
+              <Address address={matchData?.player2} />
+              <Address address={matchData?.nft2} />
+              <h2>HP {matchData?.hp2.toString()}</h2>
+              <Image className="" src={url2 || ""} width={100} height={100} alt="Player" />
+            </div>
+            <div>
+              <Address address={matchData?.player1} />
+              <Address address={matchData?.nft1} />
+              <h2>HP {matchData?.hp1.toString()}</h2>
+              <Image className="" src={url || ""} width={100} height={100} alt="Player" />
+            </div>
           </div>
-        </div>
+        )}
 
         <div className="flex">
           {moveData?.map((m, index) => (
