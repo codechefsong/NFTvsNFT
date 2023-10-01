@@ -155,17 +155,18 @@ const Marketplace: NextPage = () => {
 
         <div>
           <h1 className="text-center mb-5">
-            <span className="block text-3xl mb-2">Moves</span>
+            <span className="block text-3xl mb-2">Your Weapons</span>
           </h1>
 
           <div className="flex">
             {moves?.map((m, index) => (
               <MoveItem data={m} key={index} tbaAddress={tbaAddress} readOnly={true} />
             ))}
+            {!moves?.length && <p>No weapons yet...</p>}
           </div>
 
           <h1 className="text-center mb-5">
-            <span className="block text-3xl mb-2">Buy Moves</span>
+            <span className="block text-3xl mb-2">Buy Weapon</span>
           </h1>
 
           <div className="flex">
